@@ -23,6 +23,29 @@ BOX  = Border(left=thin, right=thin, top=thin, bottom=thin)
 WRAP = Alignment(wrap_text=True, vertical="top")
 CTR  = Alignment(horizontal="center", vertical="center", wrap_text=True)
 
+# 사용자 제공 참고 문서 링크 (플랫폼별). 값은 "설명 — URL" 줄바꿈 나열
+LINKS = {
+"케이브덕": "인센티브 제도\nhttps://docs.caveduck.io/ko/articles/-케이브덕-인센티브-2d2af46b\n\n오리지널 캐릭터 안내\nhttps://docs.caveduck.io/ko/articles/-오리지널-캐릭터란-48fbd04c\n\n공식 크리에이터 모집\nhttps://walla.my/survey/sQXefixMpMIEZcFyDCkQ",
+"베이비챗 (투킷)": "크리에이터 클럽\nhttps://docs.channel.io/babechat/ko/articles/크리에이터-클럽-2634bb39\n\n공식 크리에이터\nhttps://docs.channel.io/babechat/ko/articles/공식-크리에이터-894c1e9d\n\n※ 투킷 자체 문서는 미확보",
+"스토리엔진": "파트너 크리에이터 프로그램\nhttps://storyengine.gitbook.io/storyengine/lang/ko/termsandpolicies/partnerprogram\n\n비용 정산\nhttps://storyengine.gitbook.io/storyengine/lang/ko/termsandpolicies/incentive",
+"루나톡": "캐릭터 제작 인센티브 정산 안내\nhttps://lunatalk.chat/b/v/notice/464\n\n공식 크리에이터 지원정책 및 신청 안내\nhttps://lunatalk.chat/b/v/notice/241",
+"에덴챗": "링크 미제공 — 문서 확인 사실만 전달받음",
+"페이브챗": "일반 유저와 인증 크리에이터의 차이\nhttps://fave-kr.zendesk.com/hc/ko/articles/16351638453263-일반-유저와-인증-크리에이터의-차이는-무엇인가요",
+"엘린": "링크 미제공 — 인증 크리에이터 신청 화면 캡처",
+"젠잇": "크리에이터 지원 패키지\nhttps://genit.ai/ko/notice/39b03096-118c-4ee0-b270-0c2853901b10",
+"플레이툰": "수익 정산 시스템 확정 안내\nhttps://www.plaitoon.com/ko/announcements/fa96254f-def7-43e1-8824-efbde44d3516",
+"챗플": "링크 미제공 — 제보",
+"위프": "고객센터 (정산 안내)\nhttps://www.whif.io/cs",
+"둠칫": "작가 인센티브 제도 (공식 크리에이터 안내 포함)\nhttps://doomchk.com/legal/incentive/",
+"티팟": "크리에이터 인센티브 및 정산 안내\nhttps://teapotchat.com/support/docs",
+"우마이": "링크 미제공",
+"유니챗": "초기 제작자 정산 프로그램 안내\nhttps://www.univers.chat/posts/84bec9d9-1ac5-484e-b073-a71c9626e5b1",
+"이세계트럭": "링크 미제공",
+"팅글": "크리에이터 & 리워드\nhttps://tingle-chat.notion.site/35ee6efc506a812b87d6e472255de464\n\n(그 외) 고객센터 답변 — 모수는 마진",
+"로판AI": "링크 미제공 — 등급표·출금 안내 캡처 + 커뮤니티 참고글(dcinside aiotomechatting no.9036)",
+"멜팅": "멜팅 크리에이터 제도\nhttps://intercom.help/melting/ko/articles/13406136-멜팅-크리에이터-제도",
+}
+
 PLATS = ["케이브덕", "베이비챗 (투킷)", "스토리엔진", "루나톡", "에덴챗", "페이브챗", "엘린", "젠잇", "플레이툰", "챗플", "위프", "둠칫", "티팟", "우마이", "유니챗", "이세계트럭", "팅글", "로판AI", "멜팅"]
 wb = Workbook()
 
@@ -281,6 +304,12 @@ for row in T:
     ws.cell(row=r, column=19, value=ROF.get(row[0], "미확인"))
     ws.cell(row=r, column=20, value=MEL.get(row[0], "미확인"))
     r += 1
+ws.cell(row=r, column=1, value="참고 문서")
+for i, pl in enumerate(PLATS):
+    ws.cell(row=r, column=2+i, value=LINKS.get(pl, "링크 미제공"))
+for cc in range(1, 21): ws.cell(row=r, column=cc).fill = FILL_GRP
+ws.row_dimensions[r].height = 96
+r += 1
 grid(ws, 6, r, 1, 21, label_cols=1)
 for rr in (6, 7):
     for cc in range(1, 21): ws.cell(row=rr, column=cc).fill = FILL_GRP
@@ -707,6 +736,13 @@ for grp, item, a, b, c, d_ in G:
         for cc in range(1, 22): ws2.cell(row=r, column=cc).fill = FILL_GRP
     prev = grp
     r += 1
+ws2.cell(row=r, column=1, value="참고")
+ws2.cell(row=r, column=2, value="참고 문서")
+for i, pl in enumerate(PLATS):
+    ws2.cell(row=r, column=3+i, value=LINKS.get(pl, "링크 미제공"))
+for cc in range(1, 22): ws2.cell(row=r, column=cc).fill = FILL_GRP
+ws2.row_dimensions[r].height = 96
+r += 1
 grid(ws2, 5, r, 1, 22, label_cols=2)
 for rr in range(5, r):
     if ws2.cell(row=rr, column=2).value in ("현금 출금", "실질 회수율", "활성화 조건"):
@@ -1538,7 +1574,42 @@ for s_ in SRC:
     r += 1
 grid(ws5, 6, r, 1, 5, label_cols=1)
 
-r += 1
+r += 2
+ws5.cell(row=r,column=1,value="1-2. 참고 문서 링크 (사용자 제공) — 각 시트 맨 아래 '참고 문서' 행과 동일한 내용").font = BOLD; r += 1
+for i,v in enumerate(["플랫폼","문서","URL"]): ws5.cell(row=r,column=1+i,value=v)
+hdr_row(ws5, r, 3); r += 1
+URLS = [
+ ["케이브덕","인센티브 제도","https://docs.caveduck.io/ko/articles/-케이브덕-인센티브-2d2af46b"],
+ ["케이브덕","오리지널 캐릭터 안내","https://docs.caveduck.io/ko/articles/-오리지널-캐릭터란-48fbd04c"],
+ ["케이브덕","공식 크리에이터 모집 (신청 폼)","https://walla.my/survey/sQXefixMpMIEZcFyDCkQ"],
+ ["베이비챗 (투킷)","크리에이터 클럽","https://docs.channel.io/babechat/ko/articles/크리에이터-클럽-2634bb39"],
+ ["베이비챗 (투킷)","공식 크리에이터","https://docs.channel.io/babechat/ko/articles/공식-크리에이터-894c1e9d"],
+ ["스토리엔진","파트너 크리에이터 프로그램 소개","https://storyengine.gitbook.io/storyengine/lang/ko/termsandpolicies/partnerprogram"],
+ ["스토리엔진","비용 정산","https://storyengine.gitbook.io/storyengine/lang/ko/termsandpolicies/incentive"],
+ ["루나톡","캐릭터 제작 인센티브 정산 안내","https://lunatalk.chat/b/v/notice/464"],
+ ["루나톡","공식 크리에이터 지원정책 및 신청 안내","https://lunatalk.chat/b/v/notice/241"],
+ ["페이브챗","일반 유저와 인증 크리에이터의 차이","https://fave-kr.zendesk.com/hc/ko/articles/16351638453263-일반-유저와-인증-크리에이터의-차이는-무엇인가요"],
+ ["젠잇","크리에이터 지원 패키지","https://genit.ai/ko/notice/39b03096-118c-4ee0-b270-0c2853901b10"],
+ ["플레이툰","수익 정산 시스템 확정 안내","https://www.plaitoon.com/ko/announcements/fa96254f-def7-43e1-8824-efbde44d3516"],
+ ["위프","고객센터 (정산 안내)","https://www.whif.io/cs"],
+ ["둠칫","작가 인센티브 제도 (공식 크리에이터 안내 포함)","https://doomchk.com/legal/incentive/"],
+ ["티팟","크리에이터 인센티브 및 정산 안내","https://teapotchat.com/support/docs"],
+ ["유니챗","초기 제작자 정산 프로그램 안내","https://www.univers.chat/posts/84bec9d9-1ac5-484e-b073-a71c9626e5b1"],
+ ["팅글","크리에이터 & 리워드","https://tingle-chat.notion.site/35ee6efc506a812b87d6e472255de464"],
+ ["멜팅","멜팅 크리에이터 제도","https://intercom.help/melting/ko/articles/13406136-멜팅-크리에이터-제도"],
+ ["에덴챗 · 엘린 · 챗플 · 우마이 · 이세계트럭 · 로판AI","링크 미제공 — 캡처·발췌·제보로만 수집","-"],
+]
+u0 = r
+for row in URLS:
+    for i,v in enumerate(row): ws5.cell(row=r,column=1+i,value=v)
+    c = ws5.cell(row=r,column=3)
+    if str(row[2]).startswith("http"):
+        c.hyperlink = row[2]; c.font = Font(name=F, size=9, color="0563C1", underline="single")
+    r += 1
+grid(ws5, u0, r, 1, 4, label_cols=1)
+ws5.cell(row=r,column=1,value="· 링크는 사용자 제공분입니다. 이 세션에서는 열어보지 않았고, 각 문서의 내용은 사용자가 붙여넣은 본문·캡처를 근거로 정리했습니다.").font = SUB
+r += 2
+
 ws5.cell(row=r,column=1,value="2. 원문 자체가 모순이거나 해석이 필요한 곳").font = BOLD; r += 1
 for i,v in enumerate(["상태","플랫폼","내용","처리"]): ws5.cell(row=r,column=1+i,value=v)
 hdr_row(ws5, r, 4); r += 1
@@ -1965,6 +2036,12 @@ for row in C:
     wsC.cell(row=r, column=9, value=ROFC.get(row[0], "미확인"))
     wsC.cell(row=r, column=10, value=MELC.get(row[0], "미확인"))
     r += 1
+wsC.cell(row=r, column=1, value="참고 문서")
+for i, pl in enumerate(CP):
+    wsC.cell(row=r, column=2+i, value=LINKS.get(pl, "링크 미제공"))
+for cc in range(1, 11): wsC.cell(row=r, column=cc).fill = FILL_GRP
+wsC.row_dimensions[r].height = 96
+r += 1
 grid(wsC, 6, r, 1, 11, label_cols=1)
 for rr in (6, 7, 8):
     for cc in range(1, 11): wsC.cell(row=rr, column=cc).fill = FILL_GRP
